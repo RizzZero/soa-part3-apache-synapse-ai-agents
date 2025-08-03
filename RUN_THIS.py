@@ -1,16 +1,14 @@
 """
-MCP Servers Interaction Example
+RUN_THIS.py - Main demo entry point for this project.
 
-This example demonstrates the interaction between two MCP servers:
-1. Order Management MCP Server - Handles orders, inventory, and customers
-2. Payment Processing MCP Server - Handles payments, refunds, and financial operations
+Usage:
+    python RUN_THIS.py
 
-The scenario simulates a complete e-commerce workflow where:
-1. A customer places an order
-2. The order is validated and inventory is checked
-3. Payment is processed
-4. Order status is updated based on payment result
-5. Various operations like refunds and order tracking are demonstrated
+Requirements:
+    - Python 3.8+
+    - Install dependencies: pip install -r requirements.txt
+
+This script demonstrates the interaction between two MCP servers (AI agents).
 """
 
 import asyncio
