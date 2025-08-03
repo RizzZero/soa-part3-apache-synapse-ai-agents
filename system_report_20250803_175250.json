@@ -1,0 +1,25 @@
+{
+  "start_time": "2025-08-03 17:52:24.668134",
+  "tests": {},
+  "demos": {
+    "ecommerce_workflow": "completed",
+    "error_scenarios": "completed"
+  },
+  "performance": {
+    "order_creation": {
+      "operations": 10,
+      "total_time": 0.0013823509216308594,
+      "avg_time": 0.00013823509216308593,
+      "ops_per_second": 7234.053121766126
+    },
+    "payment_processing": {
+      "operations": 5,
+      "total_time": 21.58191180229187,
+      "avg_time": 4.316382360458374,
+      "ops_per_second": 0.23167549037379673
+    }
+  },
+  "errors": [],
+  "end_time": "2025-08-03 17:52:50.732368",
+  "duration": 26.064234
+}

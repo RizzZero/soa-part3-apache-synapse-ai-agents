@@ -22,7 +22,7 @@ from typing import Dict, Any
 # Import our MCP servers
 import sys
 import os
-sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from services.order_management_server import OrderManagementMCPServer
 from services.payment_processing_server import PaymentProcessingMCPServer

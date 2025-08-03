@@ -1,0 +1,316 @@
+# MCP Servers Configuration
+# Configuration for Order Management and Payment Processing MCP Servers
+
+# Order Management MCP Server Configuration
+order_management_server:
+  name: "Order Management MCP Server"
+  version: "1.0.0"
+  description: "Handles order processing, inventory management, and customer operations"
+  
+  # Server settings
+  host: "localhost"
+  port: 8080
+  debug: true
+  
+  # Database settings (for production)
+  database:
+    type: "sqlite"  # or "postgresql", "mysql"
+    url: "sqlite:///orders.db"
+    echo: false
+  
+  # Cache settings
+  cache:
+    type: "redis"
+    url: "redis://localhost:6379"
+    ttl: 3600
+  
+  # Integration settings
+  integrations:
+    payment_server_url: "http://localhost:8081"
+    inventory_system_url: "http://localhost:8082"
+    shipping_provider_url: "http://localhost:8083"
+  
+  # Business logic settings
+  business_rules:
+    max_order_amount: 10000.00
+    min_order_amount: 1.00
+    auto_cancel_timeout: 3600  # seconds
+    low_stock_threshold: 10
+    require_payment_confirmation: true
+  
+  # Sample data initialization
+  sample_data:
+    customers:
+      - id: "cust_001"
+        name: "John Doe"
+        email: "john.doe@example.com"
+        phone: "+1-555-0123"
+        address:
+          street: "123 Main St"
+          city: "New York"
+          state: "NY"
+          zip: "10001"
+          country: "USA"
+      - id: "cust_002"
+        name: "Jane Smith"
+        email: "jane.smith@example.com"
+        phone: "+1-555-0456"
+        address:
+          street: "456 Oak Ave"
+          city: "Los Angeles"
+          state: "CA"
+          zip: "90210"
+          country: "USA"
+    
+    products:
+      - id: "prod_001"
+        name: "Laptop Computer"
+        description: "High-performance laptop with 16GB RAM"
+        price: 1299.99
+        category: "Electronics"
+        stock_quantity: 50
+        sku: "LAPTOP-001"
+      - id: "prod_002"
+        name: "Wireless Mouse"
+        description: "Ergonomic wireless mouse"
+        price: 29.99
+        category: "Electronics"
+        stock_quantity: 200
+        sku: "MOUSE-001"
+      - id: "prod_003"
+        name: "Coffee Mug"
+        description: "Ceramic coffee mug, 12oz"
+        price: 12.99
+        category: "Home & Kitchen"
+        stock_quantity: 150
+        sku: "MUG-001"
+
+# Payment Processing MCP Server Configuration
+payment_processing_server:
+  name: "Payment Processing MCP Server"
+  version: "1.0.0"
+  description: "Handles payment processing, validation, and financial operations"
+  
+  # Server settings
+  host: "localhost"
+  port: 8081
+  debug: true
+  
+  # Database settings (for production)
+  database:
+    type: "sqlite"  # or "postgresql", "mysql"
+    url: "sqlite:///payments.db"
+    echo: false
+  
+  # Cache settings
+  cache:
+    type: "redis"
+    url: "redis://localhost:6379"
+    ttl: 1800
+  
+  # Integration settings
+  integrations:
+    order_server_url: "http://localhost:8080"
+    fraud_detection_url: "http://localhost:8084"
+    accounting_system_url: "http://localhost:8085"
+  
+  # Payment gateway simulation settings
+  gateway:
+    name: "simulated_gateway"
+    success_rate: 0.95  # 95% success rate
+    processing_time: 2.0  # 2 seconds average processing time
+    supported_currencies: ["USD", "EUR", "GBP", "JPY"]
+    supported_methods: ["credit_card", "debit_card", "bank_transfer", "digital_wallet"]
+    
+    # Fraud detection settings
+    fraud_detection:
+      enabled: true
+      risk_threshold: 0.8
+      max_amount_per_transaction: 5000.00
+      suspicious_patterns:
+        - "multiple_failed_attempts"
+        - "unusual_amount"
+        - "foreign_transaction"
+    
+    # Refund settings
+    refund:
+      max_refund_percentage: 100.0
+      require_approval_above: 1000.00
+      auto_approve_below: 50.00
+  
+  # Business logic settings
+  business_rules:
+    max_transaction_amount: 10000.00
+    min_transaction_amount: 0.01
+    require_cvv: true
+    require_3d_secure_above: 1000.00
+    auto_capture_delay: 86400  # 24 hours in seconds
+  
+  # Sample data initialization
+  sample_data:
+    customers:
+      - id: "cust_001"
+        name: "John Doe"
+        email: "john.doe@example.com"
+        phone: "+1-555-0123"
+        payment_methods:
+          - id: "pm_001"
+            type: "credit_card"
+            last_four: "1234"
+            expiry_month: 12
+            expiry_year: 2025
+            card_type: "Visa"
+            is_default: true
+          - id: "pm_002"
+            type: "debit_card"
+            last_four: "5678"
+            expiry_month: 8
+            expiry_year: 2026
+            card_type: "Mastercard"
+            is_default: false
+      - id: "cust_002"
+        name: "Jane Smith"
+        email: "jane.smith@example.com"
+        phone: "+1-555-0456"
+        payment_methods:
+          - id: "pm_003"
+            type: "credit_card"
+            last_four: "9012"
+            expiry_month: 3
+            expiry_year: 2027
+            card_type: "American Express"
+            is_default: true
+
+# MCP Protocol Configuration
+mcp:
+  # General MCP settings
+  protocol_version: "1.0.0"
+  tools_enabled: true
+  resources_enabled: true
+  
+  # Authentication settings
+  authentication:
+    enabled: true
+    methods: ["api_key", "jwt", "oauth2"]
+    api_key_header: "X-API-Key"
+    jwt_secret: "your-jwt-secret-key"
+    oauth2_provider: "https://oauth2.example.com"
+  
+  # Rate limiting
+  rate_limiting:
+    enabled: true
+    requests_per_minute: 100
+    burst_limit: 20
+  
+  # Logging
+  logging:
+    level: "INFO"
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    file: "mcp-servers.log"
+    max_size: "10MB"
+    backup_count: 5
+  
+  # Monitoring
+  monitoring:
+    enabled: true
+    metrics_endpoint: "/metrics"
+    health_check_endpoint: "/health"
+    prometheus_enabled: true
+
+# Interaction Configuration
+interaction:
+  # Cross-server communication settings
+  communication:
+    timeout: 30  # seconds
+    retry_attempts: 3
+    retry_delay: 1  # seconds
+    
+  # Event-driven interactions
+  events:
+    order_created: true
+    payment_processed: true
+    payment_failed: true
+    refund_processed: true
+    inventory_updated: true
+    
+  # Webhook settings
+  webhooks:
+    enabled: true
+    endpoints:
+      order_status_update: "http://localhost:8080/webhooks/order-status"
+      payment_status_update: "http://localhost:8081/webhooks/payment-status"
+    
+  # Data synchronization
+  sync:
+    enabled: true
+    interval: 300  # 5 minutes
+    batch_size: 100
+
+# Development and Testing
+development:
+  # Development mode settings
+  mode: "development"
+  auto_reload: true
+  debug_toolbar: true
+  
+  # Testing settings
+  testing:
+    mock_external_services: true
+    use_sample_data: true
+    enable_fake_payments: true
+    
+  # Sample scenarios
+  scenarios:
+    - name: "Complete E-commerce Workflow"
+      description: "Full order to payment workflow"
+      steps:
+        - "create_customer"
+        - "add_payment_method"
+        - "create_order"
+        - "process_payment"
+        - "update_order_status"
+        - "generate_reports"
+    
+    - name: "Payment Failure Handling"
+      description: "Handle payment failures gracefully"
+      steps:
+        - "create_order"
+        - "process_payment_failure"
+        - "attempt_alternative_payment"
+        - "update_order_status"
+    
+    - name: "Refund Processing"
+      description: "Process refunds and updates"
+      steps:
+        - "create_order"
+        - "process_payment"
+        - "process_refund"
+        - "update_inventory"
+        - "generate_refund_report"
+
+# Security Configuration
+security:
+  # SSL/TLS settings
+  ssl:
+    enabled: false
+    cert_file: "cert.pem"
+    key_file: "key.pem"
+    
+  # CORS settings
+  cors:
+    enabled: true
+    allowed_origins: ["http://localhost:3000", "https://example.com"]
+    allowed_methods: ["GET", "POST", "PUT", "DELETE"]
+    allowed_headers: ["Content-Type", "Authorization"]
+    
+  # Input validation
+  validation:
+    enabled: true
+    max_request_size: "10MB"
+    allowed_file_types: ["json", "xml"]
+    
+  # Audit logging
+  audit:
+    enabled: true
+    log_sensitive_operations: true
+    retention_days: 90 

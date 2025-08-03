@@ -1,0 +1,93 @@
+# Apache Synapse MCP Server Configuration
+# Copy this file to synapse-mcp.yaml and modify as needed
+
+server:
+  host: "localhost"
+  port: 8080
+  debug: false
+
+security:
+  enabled: true
+  auth_type: "jwt"  # jwt, oauth2, api_key
+  jwt_secret: "your-secret-key-here"
+  oauth2_client_id: ""
+  oauth2_client_secret: ""
+  api_key_header: "X-API-Key"
+  rate_limit_requests: 100
+  rate_limit_window: 60  # seconds
+
+monitoring:
+  enabled: true
+  metrics_port: 9090
+  log_level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  log_format: "json"  # json, text
+  prometheus_enabled: true
+  health_check_interval: 30  # seconds
+
+database:
+  type: "sqlite"  # sqlite, postgresql, mysql
+  url: "sqlite:///synapse_mcp.db"
+  pool_size: 10
+  max_overflow: 20
+  echo: false
+
+cache:
+  type: "redis"  # redis, memory
+  redis_url: "redis://localhost:6379"
+  ttl: 3600  # seconds
+  max_size: 1000
+
+synapse:
+  home: "/opt/synapse"
+  config_dir: "/opt/synapse/conf"
+  repository_dir: "/opt/synapse/repository"
+
+mcp:
+  server_name: "synapse-mcp-server"
+  server_version: "1.0.0"
+  tools_enabled: true
+  resources_enabled: true
+
+# Example service configurations
+services:
+  user_service:
+    type: "proxy"
+    target: "http://user-service:8080"
+    transforms: ["xml-to-json"]
+    security: "oauth2"
+    rate_limit: 50
+    
+  order_service:
+    type: "proxy"
+    target: "http://order-service:8080"
+    transforms: ["json-to-xml"]
+    security: "jwt"
+    rate_limit: 100
+
+# Example transformer configurations
+transformers:
+  xml-to-json:
+    type: "xslt"
+    stylesheet: "transformations/xml-to-json.xslt"
+    
+  json-to-xml:
+    type: "template"
+    template: "transformations/json-to-xml.template"
+    
+  xslt:
+    type: "xslt"
+    stylesheet: "transformations/generic.xslt"
+
+# Example routing rules
+routing:
+  user_requests:
+    condition: "path starts with '/api/users'"
+    target: "user_service"
+    
+  order_requests:
+    condition: "path starts with '/api/orders'"
+    target: "order_service"
+    
+  default:
+    condition: "default"
+    target: "user_service" 

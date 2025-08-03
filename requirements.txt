@@ -1,15 +1,49 @@
-# Requirements for SOA Part 3 Project
-# Python 3.8+ required
+# Core MCP dependencies
+mcp>=1.0.0
+asyncio-mqtt>=0.16.0
 
-# Core dependencies
-asyncio>=3.4.3
-typing-extensions>=4.0.0
+# Note: Apache Synapse packages are not available in PyPI
+# They would need to be installed separately from Apache distribution
 
-# Logging and utilities
-python-dateutil>=2.8.2
+# Web framework and HTTP handling
+fastapi>=0.104.0
+uvicorn>=0.24.0
+httpx>=0.25.0
+aiohttp>=3.9.0
 
-# Optional: For enhanced functionality
-# aiohttp>=3.8.0  # For HTTP server capabilities
-# pydantic>=1.9.0  # For data validation
-# fastapi>=0.68.0  # For REST API endpoints
-# uvicorn>=0.15.0  # For running FastAPI server 
+# Message processing and transformation
+lxml>=4.9.0
+xmltodict>=0.13.0
+jsonschema>=4.20.0
+pydantic>=2.5.0
+
+# Security and authentication
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+python-multipart>=0.0.6
+
+# Database and caching
+redis>=5.0.0
+sqlalchemy>=2.0.0
+alembic>=1.13.0
+
+# Monitoring and logging
+prometheus-client>=0.19.0
+structlog>=23.2.0
+opentelemetry-api>=1.21.0
+opentelemetry-sdk>=1.21.0
+
+# Configuration management
+pyyaml>=6.0.1
+python-dotenv>=1.0.0
+
+# Testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.1.0
+
+# Development tools
+black>=23.11.0
+isort>=5.12.0
+flake8>=6.1.0
+mypy>=1.7.0 
