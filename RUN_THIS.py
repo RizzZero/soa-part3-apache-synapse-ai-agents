@@ -103,7 +103,7 @@ def main():
         "show_agent_chat.py",
         "verify_success.py",
         "run_all_demo_simple.py",
-        "final_summary.py",
+        "RUN_THIS.py",
         "README.md",
         "requirements.txt"
     ]
@@ -121,6 +121,7 @@ def main():
     print("python demo.py                         # Comprehensive Demo")
     print("python show_agent_chat.py              # Agent Conversations")
     print("python run_all_demo_simple.py          # Run Everything")
+    print("python RUN_THIS.py                     # Final Summary")
     
     print_section("CONCLUSION")
     print("SUCCESS: All Part 3 components are working perfectly!")
